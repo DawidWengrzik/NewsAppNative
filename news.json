@@ -1,0 +1,72 @@
+{
+  "uuid": "196cbabc-2136-4868-91c1-70fc730f8a53",
+  "lastMigration": 19,
+  "name": "News",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 3001,
+  "hostname": "0.0.0.0",
+  "routes": [
+    {
+      "uuid": "3476e09f-897f-4f92-adba-f685ff8d2a0b",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "news",
+      "responses": [
+        {
+          "uuid": "d5d9002b-fbe7-4ee4-8d0c-cc42eacdc067",
+          "body": "{\n  \"author\": \"null\",\n  \"category\": \"general\",\n  \"country\": \"us\",\n  \"description\": \"Atmasphere, a brand new yoga and fitness lifestyle concept launching in Atlanta, will open the doors to its first-ever studio in the Buckhead community on Friday, April 15! Located at 3097 Piedmont Road N.E. in a two-story, 10,000 square-foot building, Atmasphere will offer an environment that ignites the union of mind, body and soul through its accessible offerings.&nbsp;The new studio warmly...\",\n  \"image\": \"null\",\n  \"language\": \"en\",\n  \"published_at\": \"2022-01-01T00:01:09+00:00\",\n  \"source\": \"buckhead\",\n  \"title\": \"Atmasphere Grand Opening April 15\",\n  \"url\": \"\",\n  },\n    \n      \n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "filePath": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false
+        }
+      ],
+      "enabled": true,
+      "randomResponse": false,
+      "sequentialResponse": false
+    }
+  ],
+  "proxyMode": true,
+  "proxyHost": "http://localhost:3000",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ]
+}
