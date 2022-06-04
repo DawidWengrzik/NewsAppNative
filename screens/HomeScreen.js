@@ -2,10 +2,8 @@ import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
-import newsJson from '../data/db.json'
-import { db } from '../firebase'
-import { collection, getDocs } from 'firebase/firestore/lite'
 import { useNavigation } from '@react-navigation/native'
+import { authentication, addUserToDB } from '../firebase'
 
 const HomeScreen = () => {
 
@@ -13,18 +11,42 @@ const HomeScreen = () => {
   const [news, setNews] = useState([])
   const navigation = useNavigation();
 
-  useEffect(() =>{ 
-    setNews([])
-    setNews(newsJson.posts);
-    setIsLoading(false);
-    getData()
-  },[])
+  const currentUser = authentication['currentUser']["uid"]
+  const apiRefUA = `http://api.mediastack.com/v1/news?access_key=keyHERE&countries=ua`
+  const apiRefDE = `http://api.mediastack.com/v1/news?access_key=keyHERE&countries=de`
+  const apiRefGB = `http://api.mediastack.com/v1/news?access_key=keyHERE&countries=gb`
+  const apiRefUS = `http://api.mediastack.com/v1/news?access_key=keyHERE&countries=us`
 
-  const getData = async () =>{
-    const postCol = collection(db, 'posts');
-    const postSnapshot = await getDocs(postCol);
-    const newsList = postSnapshot.docs.map(signleNews => signleNews.data());
-  }
+  useEffect(() =>{ 
+    //Upload current user to database
+    const uploadUsersData = async () => {
+      const data = await addUserToDB(currentUser)
+      return data
+    }
+
+    const getData = async (ref) => {
+      return await fetch(ref)
+      .then(res => res.json())
+      .then(json => {
+        setNews(prevState => [...prevState, ...json.data])
+      })
+      .catch(err => console.log(err))
+    }
+
+    uploadUsersData()
+    .catch(err => alert(err))
+
+   /*
+    getData(apiRefUA)
+    .catch(err => alert(err))
+    getData(apiRefDE)
+    .catch(err => alert(err))
+    getData(apiRefGB)
+    .catch(err => alert(err))
+    getData(apiRefUS)
+    .catch(err => alert(err))
+    */
+  },[])
 
   const handleSpecificCountryList = (country) => {
     const filteredNews = news.filter((el) => {
@@ -35,14 +57,15 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <NavBar />      
+      {/* Make it  more clear ! require dynamic image !*/}
       <TouchableOpacity style={styles.countryBtn}
         onPress={() => navigation.navigate('SpecificCountryNews', {
-          specificCountryList: handleSpecificCountryList("pl")
+          specificCountryList: handleSpecificCountryList("ua")
         })}
         
       >
-        <Image source={require('../data/poland.png')} style={styles.images}/>
-        <Text style={styles.countryName}>Poland</Text>
+        <Image source={require('../data/ukraine.png')} style={styles.images}/>
+        <Text style={styles.countryName}>Ukraine</Text>
       </TouchableOpacity>  
       <TouchableOpacity style={styles.countryBtn}
         onPress={() => navigation.navigate('SpecificCountryNews', {

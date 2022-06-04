@@ -38,11 +38,11 @@ const PostDetails = ({ route }) => {
                         {`${country.toUpperCase()} ${moment(date).format('DD/MM/YYYY')}`}
                     </Text>
                     {
-                        image ?
+                        image !== "" ?
                         <Image
-                            style={{width: 80, height: 80, marginBottom: 30}}
+                            style={{width: 200, height: 200, marginBottom: 30, alignSelf: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#183153'}}
                             source={{
-                            uri: 'https://reactnative.dev/img/tiny_logo.png',
+                            uri: image,
                         }}
                         /> : null
                     } 

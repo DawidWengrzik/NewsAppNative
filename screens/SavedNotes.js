@@ -1,14 +1,28 @@
 import { StyleSheet, View, SafeAreaView, FlatList } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
 import PostItem from '../components/PostItem'
 import SavedNoteContext from '../data/SavedNoteContext'
+import { authentication, db } from '../firebase'
+import { doc, getDoc } from 'firebase/firestore'
 
 const SavedNews = () => {
 
   const [savedNotes, setSavedNotes] = useContext(SavedNoteContext);
+
+  const getSavedNotesFromFirestore = async() => {
+    const currentUser = authentication['currentUser']["uid"]
+
+    const docRef = doc(db, "usersData", currentUser);
+    const docSnap = await getDoc(docRef);
+    setSavedNotes([...docSnap.data()["savedNews"]])
+  }
   
+  useEffect(() => { 
+    getSavedNotesFromFirestore()
+  }, [])
+
   return (
     <View style={styles.container}>
       <NavBar />
@@ -21,6 +35,8 @@ const SavedNews = () => {
             post = {item.item}
             title = {item.item.title}
             savedNotes={savedNotes}
+            savedNotes = {savedNotes}
+            setSavedNotes={setSavedNotes}
             />}
         />
         }

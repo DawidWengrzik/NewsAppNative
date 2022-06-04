@@ -4,7 +4,7 @@ import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/Key
 import { TextInput } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { authentication } from '../firebase'
+import {  authentication } from '../firebase'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native'
 
@@ -18,17 +18,18 @@ const LoginScreen = () => {
     useEffect(()=>{
         const unsubscribe = authentication.onAuthStateChanged(user => {
             if(user) { 
-                navigation.replace("Home")
+                navigation.navigate("Home")
             }
         })
         return unsubscribe;
+        
     }, [])
 
     const handleRegister = () => {
         createUserWithEmailAndPassword(authentication, email, password).
         then(() => {
             setEmail('') 
-            setPassword('')
+            setPassword('')            
         }).
         catch((error)=> { 
         setEmail('') 
@@ -46,7 +47,9 @@ const LoginScreen = () => {
         setEmail('') 
         setPassword('')
         alert(error.message)
+        
     })}
+
 
     return (
     <KeyboardAvoidingView 

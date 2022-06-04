@@ -1,19 +1,63 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, {useContext, useState} from 'react'
+import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Icon2 from 'react-native-vector-icons/MaterialIcons'
 import DoubleClick from 'react-native-double-tap';
-import SavedNoteContext from '../data/SavedNoteContext';
-import { useNavigation } from '@react-navigation/native'
 
-const PostItem = ({post, title, specificCountryList}) => {
+import { useNavigation } from '@react-navigation/native'
+import { authentication, db } from '../firebase';
+import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+
+const PostItem = ({post, specificCountryList, savedNotes, setSavedNotes}) => {
 
     const[addedToNote, setAddedToNote] = useState(false);
-    const [savedNotes, setSavedNotes] = useContext(SavedNoteContext);
     const navigation = useNavigation();
 
+    const {author, category, country, description, image, language, published_at, source, title, url} = post;
+
+    const currentUser = authentication['currentUser']["uid"]
+    
+    const addPostToUserColection = async () => {
+        const docRef = doc(db, 'usersData', currentUser)
+
+        await updateDoc(docRef, {
+            savedNews: arrayUnion({
+                author: author,
+                category: category,
+                country: country,
+                description, description,
+                image: image,
+                language: language,
+                published_at: published_at,
+                source: source,
+                title: title, 
+                url: url
+            })
+          })
+          .catch(err => console.log(err))
+    }
+
+    const deletePostFromUserColection = async () => {
+        const docRef = doc(db, 'usersData', currentUser)
+
+        await updateDoc(docRef, {
+            savedNews: arrayRemove({
+                author: author,
+                category: category,
+                country: country,
+                description, description,
+                image: image,
+                language: language,
+                published_at: published_at,
+                source: source,
+                title: title, 
+                url: url
+            })
+          })
+          .catch(err => console.log(err))
+    }
+
     return (
-        
         <DoubleClick 
         singleTap={() => navigation.navigate('PostDetails', {
             post: post,
@@ -21,13 +65,16 @@ const PostItem = ({post, title, specificCountryList}) => {
             savedNotes: savedNotes
         })}
         doubleTap={() => {
+            console.log(savedNotes)
             if(!savedNotes.includes(post)){
                 setSavedNotes([...savedNotes, post])
                 setAddedToNote(!addedToNote)
+                addPostToUserColection()
             }
             else{
-                setSavedNotes(savedNotes.filter( (el) => {return el !== post }))
+                setSavedNotes(savedNotes.filter( (el) => {return el !== post }) )
                 setAddedToNote(!addedToNote)
+                deletePostFromUserColection()
             }
         }}>
             <View style={styles.postBtn}>
