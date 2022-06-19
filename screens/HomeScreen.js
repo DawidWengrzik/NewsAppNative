@@ -12,10 +12,10 @@ const HomeScreen = () => {
   const navigation = useNavigation();
 
   const currentUser = authentication['currentUser']["uid"]
-  const apiRefUA = `http://api.mediastack.com/v1/news?access_key=keyHERE&countries=ua`
-  const apiRefDE = `http://api.mediastack.com/v1/news?access_key=keyHERE&countries=de`
-  const apiRefGB = `http://api.mediastack.com/v1/news?access_key=keyHERE&countries=gb`
-  const apiRefUS = `http://api.mediastack.com/v1/news?access_key=keyHERE&countries=us`
+  const apiRefUA = `http://api.mediastack.com/v1/news?access_key=e2baa0726ff5353621c2c0075f6bef9b&countries=ua`
+  const apiRefDE = `http://api.mediastack.com/v1/news?access_key=e2baa0726ff5353621c2c0075f6bef9b&countries=de`
+  const apiRefGB = `http://api.mediastack.com/v1/news?access_key=e2baa0726ff5353621c2c0075f6bef9b&countries=gb`
+  const apiRefUS = `http://api.mediastack.com/v1/news?access_key=e2baa0726ff5353621c2c0075f6bef9b&countries=us`
 
   useEffect(() =>{ 
     //Upload current user to database
@@ -36,7 +36,6 @@ const HomeScreen = () => {
     uploadUsersData()
     .catch(err => alert(err))
 
-   /*
     getData(apiRefUA)
     .catch(err => alert(err))
     getData(apiRefDE)
@@ -45,7 +44,6 @@ const HomeScreen = () => {
     .catch(err => alert(err))
     getData(apiRefUS)
     .catch(err => alert(err))
-    */
   },[])
 
   const handleSpecificCountryList = (country) => {

@@ -26,6 +26,7 @@ const LoginScreen = () => {
     }, [])
 
     const handleRegister = () => {
+    // Handle register button funcion - register user to firestore auth
         createUserWithEmailAndPassword(authentication, email, password).
         then(() => {
             setEmail('') 
@@ -39,6 +40,7 @@ const LoginScreen = () => {
     )}
 
     const handleLogIn = () => {
+    // Handle login button funcion - login user to his account
         signInWithEmailAndPassword(authentication, email, password).
         then(() => {
             setIsSignedIn(true);

@@ -24,8 +24,6 @@ export const db = getFirestore()
 
 // Reference to db 
 
-
-
 export const addUserToDB = (userId) => {
   // User News array initialize
   if (!(doc(db, 'usersData', userId))){
@@ -33,8 +31,7 @@ export const addUserToDB = (userId) => {
       savedNews: []
     });
   }
-  
 } 
-
+// Authorize user
 export const authentication = getAuth(app);
 
