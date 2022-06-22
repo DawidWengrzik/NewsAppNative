@@ -4,21 +4,20 @@ import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/Key
 import { TextInput } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import {  authentication } from '../firebase'
+import {  addUserToDB, authentication } from '../firebase'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native'
 
 
 const LoginScreen = () => {
-    const [isSignedIn, setIsSignedIn] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const navigation = useNavigation();
-    useEffect(()=>{
+    useEffect( () => {
         const unsubscribe = authentication.onAuthStateChanged(user => {
             if(user) { 
-                navigation.navigate("Home")
+                navigation.navigate("ProfileScreen")
             }
         })
         return unsubscribe;
@@ -30,7 +29,8 @@ const LoginScreen = () => {
         createUserWithEmailAndPassword(authentication, email, password).
         then(() => {
             setEmail('') 
-            setPassword('')            
+            setPassword('')    
+            addUserToDB(authentication['currentUser']["uid"])        
         }).
         catch((error)=> { 
         setEmail('') 

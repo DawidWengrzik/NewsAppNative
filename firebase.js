@@ -26,11 +26,9 @@ export const db = getFirestore()
 
 export const addUserToDB = (userId) => {
   // User News array initialize
-  if (!(doc(db, 'usersData', userId))){
-    setDoc(doc(db, "usersData", userId), {
-      savedNews: []
-    });
-  }
+  setDoc(doc(db, "usersData", userId), {
+    savedNews: []
+  });
 } 
 // Authorize user
 export const authentication = getAuth(app);

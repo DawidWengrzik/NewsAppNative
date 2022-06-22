@@ -37,14 +37,15 @@ const PostDetails = ({ route }) => {
                     <Text style={[styles.describeText, { fontWeight: 'bold', marginBottom: 10}]}>
                         {`${country.toUpperCase()} ${moment(date).format('DD/MM/YYYY')}`}
                     </Text>
-                    {
-                        image !== "" ?
+                    {   /* Prepare for video */
+                        image !== null ?
+                        image.slice(image.length-3).toString() === "png" ||  image.slice(image.length-3).toString() === "jpg" ?
                         <Image
                             style={{width: 200, height: 200, marginBottom: 30, alignSelf: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#183153'}}
                             source={{
                             uri: image,
-                        }}
-                        /> : null
+                        }}/> 
+                        : null: null
                     } 
                     <Text style={styles.describeText}>{description}</Text>
                 </ScrollView>      
